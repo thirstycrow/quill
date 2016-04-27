@@ -25,11 +25,11 @@ trait Liftables {
     case Infix(a, b) => q"$pack.Infix($a, $b)"
     case OptionOperation(a, b, c, d) => q"$pack.OptionOperation($a, $b, $c, $d)"
     case If(a, b, c) => q"$pack.If($a, $b, $c)"
-    case Dynamic(tree: Tree) if (tree.tpe <:< c.weakTypeOf[Quoted[Any]]) => q"$tree.ast"
-    case Dynamic(tree: Tree) => q"$pack.Constant($tree)"
-    case RuntimeBinding(key: String, toString: String) => q"$pack.RuntimeBinding($key, $toString)"
-    case CompileTimeBinding(key: String, tree: Tree) => q"$pack.RuntimeBinding($key, ${tree.toString})"
+    case Dynamic(tree: Tree) => q"$tree.ast"
     case QuotedReference(_, ast) => astLiftable(ast)
+    case CompileTimeBinding(tree: Tree) => q"$pack.RuntimeBinding(${tree.toString})"
+    case RuntimeBinding(name) => q"$pack.RuntimeBinding($name)"
+    case CompileTimeBinding(tree: Tree) => q"$pack.RuntimeBinding(${tree.toString})"
   }
 
   implicit val optionOperationTypeLiftable: Liftable[OptionOperationType] = Liftable[OptionOperationType] {

@@ -703,16 +703,6 @@ class QuotationSpec extends Spec {
         quote(unquote(q1)).ast mustEqual filtered.ast
         quote(unquote(q2)).ast mustEqual qr1.ast
       }
-      "value" in {
-        val i = 1
-        val l = quote {
-          lift(i)
-        }
-        val q = quote {
-          unquote(l)
-        }
-        quote(unquote(q)).ast mustEqual Constant(1)
-      }
       "quoted dynamic" in {
         val i: Quoted[Int] = quote(1)
         val q: Quoted[Int] = quote(i + 1)
@@ -760,7 +750,35 @@ class QuotationSpec extends Spec {
       }
       quote(unquote(q)).ast.ordering mustEqual o.ast
     }
+  }
 
+  "retains binginds" - {
+    import language.reflectiveCalls
+    "identifier" in {
+      val i = 1
+      val q = quote(lift(i))
+      q.bindings.i mustEqual i
+    }
+    "property" in {
+      case class Test(a: String)
+      val t = Test("a")
+      val q = quote(lift(t.a))
+      q.bindings.`t.a` mustEqual t.a
+    }
+    "abritrary" in {
+      val q = quote(lift(String.valueOf(1)))
+      q.bindings.`java.this.lang.String.valueOf(1)` mustEqual String.valueOf(1)
+    }
+  }
+  
+  "aggregates bindings of nested quotations" - {
+    "one level" in {
+      val i = 1
+      val q1 = quote(lift(i))
+      val q2 = quote(q1 + 1)
+      q2.ast mustEqual null
+      q2.bindings.i mustEqual i
+    }
   }
 
   "reduces tuple matching locally" - {

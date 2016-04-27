@@ -115,7 +115,7 @@ class SourceMacroSpec extends Spec {
       "free variable" - {
         val i = 1
         val q = quote {
-          qr1.filter(x => x.i == i)
+          qr1.filter(x => x.i == lift(i))
         }
         val r = mirrorSource.run(q)
         r.ast.toString mustEqual "query[TestEntity].filter(x => x.i == i).map(x => (x.s, x.i, x.l, x.o))"
@@ -125,10 +125,10 @@ class SourceMacroSpec extends Spec {
         val i = 1
         val l = 1L
         val q1 = quote {
-          qr1.filter(x => x.i == i)
+          qr1.filter(x => x.i == lift(i))
         }
         val q2 = quote {
-          q1.filter(x => x.l == l)
+          q1.filter(x => x.l == lift(l))
         }
         val r = mirrorSource.run(q2)
         r.ast.toString mustEqual "query[TestEntity].filter(x => (x.i == i) && (x.l == l)).map(x => (x.s, x.i, x.l, x.o))"

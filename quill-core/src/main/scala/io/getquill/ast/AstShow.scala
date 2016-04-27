@@ -8,22 +8,21 @@ import io.getquill.util.Show.listShow
 object AstShow {
 
   implicit val astShow: Show[Ast] = Show[Ast] {
-    case ast: Query            => ast.show
-    case ast: Function         => ast.show
-    case ast: Value            => ast.show
-    case ast: Operation        => ast.show
-    case ast: Action           => ast.show
-    case ast: Ident            => ast.show
-    case ast: Property         => ast.show
-    case ast: Infix            => ast.show
-    case ast: OptionOperation  => ast.show
-    case ast: Dynamic          => ast.show
-    case ast: Binding          => ast.show
-    case ast: If               => ast.show
-    case ast: Block            => ast.show
-    case ast: Val              => ast.show
-    case ast: Ordering         => ast.show
-    case q: QuotedReference[_] => q.ast.show
+    case ast: Query           => ast.show
+    case ast: Function        => ast.show
+    case ast: Value           => ast.show
+    case ast: Operation       => ast.show
+    case ast: Action          => ast.show
+    case ast: Ident           => ast.show
+    case ast: Property        => ast.show
+    case ast: Infix           => ast.show
+    case ast: OptionOperation => ast.show
+    case ast: Dynamic         => ast.show
+    case ast: Binding         => ast.show
+    case ast: If              => ast.show
+    case ast: Block           => ast.show
+    case ast: Val             => ast.show
+    case ast: Ordering        => ast.show
   }
 
   implicit val ifShow: Show[If] = Show[If] {
@@ -35,8 +34,8 @@ object AstShow {
   }
 
   implicit val bindingShow: Show[Binding] = Show[Binding] {
-    case RuntimeBinding(_, toString) => toString
-    case b: CompileTimeBinding[_]    => b.tree.toString
+    case RuntimeBinding(name)     => name
+    case CompileTimeBinding(tree) => tree.toString
   }
 
   implicit val blockShow: Show[Block] = Show[Block] {
