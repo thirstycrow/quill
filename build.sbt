@@ -127,7 +127,7 @@ lazy val commonSettings = ReleasePlugin.extraReleaseCommands ++ Seq(
     baseDirectory.value / "src" / "test" / "resources"
   ),
   scalacOptions ++= Seq(
-    "-Xfatal-warnings",
+    //"-Xfatal-warnings",
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",

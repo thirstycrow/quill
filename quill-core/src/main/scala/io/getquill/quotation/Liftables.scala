@@ -10,26 +10,26 @@ trait Liftables {
   private val pack = q"io.getquill.ast"
 
   implicit val astLiftable: Liftable[Ast] = Liftable[Ast] {
-    case ast: Query => queryLiftable(ast)
-    case ast: Action => actionLiftable(ast)
-    case ast: Value => valueLiftable(ast)
-    case ast: Ident => identLiftable(ast)
-    case ast: Ordering => orderingLiftable(ast)
-    case Val(name, body) => q"$pack.Val($name, $body)"
-    case Block(statements) => q"$pack.Block($statements)"
-    case Property(a, b) => q"$pack.Property($a, $b)"
-    case Function(a, b) => q"$pack.Function($a, $b)"
-    case FunctionApply(a, b) => q"$pack.FunctionApply($a, $b)"
-    case BinaryOperation(a, b, c) => q"$pack.BinaryOperation($a, $b, $c)"
-    case UnaryOperation(a, b) => q"$pack.UnaryOperation($a, $b)"
-    case Infix(a, b) => q"$pack.Infix($a, $b)"
-    case OptionOperation(a, b, c, d) => q"$pack.OptionOperation($a, $b, $c, $d)"
-    case If(a, b, c) => q"$pack.If($a, $b, $c)"
-    case Dynamic(tree: Tree) => q"$tree.ast"
-    case QuotedReference(_, ast) => astLiftable(ast)
-    case CompileTimeBinding(tree: Tree) => q"$pack.RuntimeBinding(${tree.toString})"
-    case RuntimeBinding(name) => q"$pack.RuntimeBinding($name)"
-    case CompileTimeBinding(tree: Tree) => q"$pack.RuntimeBinding(${tree.toString})"
+    case ast: Query                       => queryLiftable(ast)
+    case ast: Action                      => actionLiftable(ast)
+    case ast: Value                       => valueLiftable(ast)
+    case ast: Ident                       => identLiftable(ast)
+    case ast: Ordering                    => orderingLiftable(ast)
+    case Val(name, body)                  => q"$pack.Val($name, $body)"
+    case Block(statements)                => q"$pack.Block($statements)"
+    case Property(a, b)                   => q"$pack.Property($a, $b)"
+    case Function(a, b)                   => q"$pack.Function($a, $b)"
+    case FunctionApply(a, b)              => q"$pack.FunctionApply($a, $b)"
+    case BinaryOperation(a, b, c)         => q"$pack.BinaryOperation($a, $b, $c)"
+    case UnaryOperation(a, b)             => q"$pack.UnaryOperation($a, $b)"
+    case Infix(a, b)                      => q"$pack.Infix($a, $b)"
+    case OptionOperation(a, b, c, d)      => q"$pack.OptionOperation($a, $b, $c, $d)"
+    case If(a, b, c)                      => q"$pack.If($a, $b, $c)"
+    case Dynamic(tree: Tree)              => q"$tree.ast"
+    case QuotedReference(tree: Tree, ast) => q"$ast"
+    case CompileTimeBinding(tree: Tree)   => q"$pack.RuntimeBinding(${tree.toString})"
+    case RuntimeBinding(name)             => q"$pack.RuntimeBinding($name)"
+    case CompileTimeBinding(tree: Tree)   => q"$pack.RuntimeBinding(${tree.toString})"
   }
 
   implicit val optionOperationTypeLiftable: Liftable[OptionOperationType] = Liftable[OptionOperationType] {

@@ -4,5 +4,5 @@ import io.getquill.ast._
 
 object IsDynamic {
   def apply(a: Ast) =
-    CollectAst[Dynamic](a).nonEmpty
+    CollectAst(a) { case d: Dynamic => d }.nonEmpty
 }

@@ -7,6 +7,7 @@ import io.getquill.quotation.Quotation
 import io.getquill.quotation.Quoted
 import io.getquill.quotation.FreeVariables
 import io.getquill.util.Messages._
+import io.getquill.quotation.Bindings
 
 trait SourceMacro extends Quotation with ActionMacro with QueryMacro with ResolveSourceMacro {
   val c: Context
@@ -18,10 +19,10 @@ trait SourceMacro extends Quotation with ActionMacro with QueryMacro with Resolv
     implicit val t = c.WeakTypeTag(quoted.actualType.baseType(c.weakTypeOf[Quoted[Any]].typeSymbol).typeArgs.head)
 
     val ast = this.ast(quoted)
-    
+
     FreeVariables(ast) match {
-      case free if free.isEmpty => 
-      case free => c.fail(s"free $free $ast")
+      case free if free.isEmpty =>
+      case free                 => c.fail(s"free $free $ast")
     }
 
     val inPlaceParams = bindingsTree(quoted.tree)
@@ -39,9 +40,10 @@ trait SourceMacro extends Quotation with ActionMacro with QueryMacro with Resolv
   }
 
   private def bindingsTree(tree: Tree) = {
-    tree.tpe.member(TermName("bindings")).typeSignature.decls.collect { case m: MethodSymbol if(m.isGetter) => m }
-      .map { symbol =>
-        (Ident(symbol.name.decodedName.toString), (symbol.typeSignature.resultType, q"quoted.bindings.$symbol"))
+    Bindings(c)(tree)
+      .map {
+        case (symbol, tree) =>
+          (Ident(symbol.name.decodedName.toString), (symbol.typeSignature.resultType, tree))
       }.toMap
   }
 

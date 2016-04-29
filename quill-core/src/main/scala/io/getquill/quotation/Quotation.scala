@@ -10,6 +10,7 @@ import scala.reflect.internal.Symbols
 
 import scala.collection.mutable
 import scala.reflect.NameTransformer
+import io.getquill.norm.BetaReduction
 
 trait Quoted[+T] {
   def ast: Ast
@@ -24,18 +25,32 @@ trait Quotation extends Liftables with Unliftables with Parsing {
 
   def quote[T: WeakTypeTag](body: Expr[T]) = {
 
-    val ast = astParser(body.tree)
-    
     def bindingName(s: String) =
       TermName(NameTransformer.encode(s))
 
-    val runtimeBindings = RuntimeBindings(c)(ast).map {
-      case (quoted, RuntimeBinding(name)) =>
-        val n = bindingName(name)
-        q"val $n = ${quoted}.bindings.$n"
-    }
+    val ast =
+      Transform(astParser(body.tree)) {
+        case QuotedReference(nested: Tree, nestedAst) =>
+          val ast =
+            Transform(nestedAst) {
+              case RuntimeBinding(name) =>
+                RuntimeBinding(s"$nested.$name")
+            }
+          QuotedReference(nested, ast)
+      }
+
+    val nestedBindings =
+      CollectAst(ast) {
+        case QuotedReference(nested: Tree, nestedAst) =>
+          Bindings(c)(nested).map {
+            case (symbol, tree) =>
+              val nestedName = bindingName(s"$nested.${symbol.name.decodedName}")
+              q"def $nestedName = $tree"
+          }
+      }.flatten
+
     val bindings =
-      CollectAst[CompileTimeBinding](ast).map {
+      CollectAst(ast) {
         case CompileTimeBinding(tree: Tree) =>
           q"val ${bindingName(tree.toString)} = $tree"
       }
@@ -54,7 +69,7 @@ trait Quotation extends Liftables with Unliftables with Parsing {
         def $id() = ()
         val bindings = new {
           ..$bindings
-          ..$runtimeBindings
+          ..$nestedBindings
         }
       }
     """
