@@ -35,8 +35,8 @@ object AstShow {
   }
 
   implicit val bindingShow: Show[Binding] = Show[Binding] {
-    case RuntimeBinding(name)     => name
-    case CompileTimeBinding(tree) => tree.toString
+    case RuntimeBinding(name)     => s"lift($name)"
+    case CompileTimeBinding(tree) => s"lift($tree)"
   }
 
   implicit val blockShow: Show[Block] = Show[Block] {

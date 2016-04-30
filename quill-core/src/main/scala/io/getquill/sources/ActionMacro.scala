@@ -45,7 +45,6 @@ trait ActionMacro extends EncodingMacro {
     q"""
     {
       import scala.language.reflectiveCalls
-      val quoted = $quotedTree
       val (sql, bindings: List[io.getquill.ast.Ident], generated) =
         ${prepare(action, idents)}
 
@@ -62,7 +61,6 @@ trait ActionMacro extends EncodingMacro {
     q"""
     {
       import scala.language.reflectiveCalls
-      val quoted = $quotedTree
       val (sql, bindings: List[io.getquill.ast.Ident], generated) =
         ${prepare(action, idents)}
 

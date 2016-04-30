@@ -547,7 +547,7 @@ class AstShowSpec extends Spec {
     "compileTimeBinding" in {
       val ast: Ast = Filter(Ident("a"), Ident("b"), CompileTimeBinding("c"))
       ast.show mustEqual
-        """a.filter(b => c)"""
+        """a.filter(b => lift(c))"""
     }
 
     "runtimeBindings" in {

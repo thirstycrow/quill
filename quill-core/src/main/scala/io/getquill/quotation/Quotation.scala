@@ -45,7 +45,7 @@ trait Quotation extends Liftables with Unliftables with Parsing {
           Bindings(c)(nested).map {
             case (symbol, tree) =>
               val nestedName = bindingName(s"$nested.${symbol.name.decodedName}")
-              q"def $nestedName = $tree"
+              q"val $nestedName = $tree"
           }
       }.flatten
 
