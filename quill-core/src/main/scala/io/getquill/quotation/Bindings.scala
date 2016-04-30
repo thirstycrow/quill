@@ -9,7 +9,13 @@ object Bindings {
       .member(TermName("bindings"))
       .typeSignature.decls.collect {
         case m: MethodSymbol if (m.isGetter) =>
-          m -> q"$quoted.bindings.$m"
+          m ->
+            q"""
+              {
+                import language.reflectiveCalls
+                $quoted.bindings.$m
+              }
+            """
       }.toMap
   }
 }

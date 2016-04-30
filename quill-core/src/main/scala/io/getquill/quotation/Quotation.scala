@@ -6,11 +6,8 @@ import scala.annotation.StaticAnnotation
 import scala.reflect.ClassTag
 import scala.reflect.macros.whitebox.Context
 import io.getquill.ast._
-import scala.reflect.internal.Symbols
 
-import scala.collection.mutable
 import scala.reflect.NameTransformer
-import io.getquill.norm.BetaReduction
 
 trait Quoted[+T] {
   def ast: Ast
@@ -58,18 +55,21 @@ trait Quotation extends Liftables with Unliftables with Parsing {
     val id = TermName(s"id${ast.hashCode}")
 
     q"""
-      new ${c.weakTypeOf[Quoted[T]]} {
-
-        @${c.weakTypeOf[QuotedAst]}($ast)
-        def quoted = ast
-
-        override def ast = $ast
-        override def toString = ast.toString
-
-        def $id() = ()
-        val bindings = new {
-          ..$bindings
-          ..$nestedBindings
+      {
+        new ${c.weakTypeOf[Quoted[T]]} { 
+  
+          @${c.weakTypeOf[QuotedAst]}($ast)
+          def quoted = ast
+  
+          override def ast = $ast
+          override def toString = ast.toString
+  
+          def $id() = ()
+          
+          val bindings = new {
+            ..$bindings
+            ..$nestedBindings
+          }
         }
       }
     """

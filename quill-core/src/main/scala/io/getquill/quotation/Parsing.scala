@@ -7,8 +7,6 @@ import io.getquill.norm.BetaReduction
 import io.getquill.util.Messages.RichContext
 import io.getquill.util.Interleave
 
-import scala.reflect.macros.whitebox.Context
-
 trait Parsing extends SchemaConfigParsing {
   this: Quotation =>
 

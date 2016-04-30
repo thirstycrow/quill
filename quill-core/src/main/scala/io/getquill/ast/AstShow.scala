@@ -1,6 +1,5 @@
 package io.getquill.ast
 
-import io.getquill.ast
 import io.getquill.util.Show.Show
 import io.getquill.util.Show.Shower
 import io.getquill.util.Show.listShow

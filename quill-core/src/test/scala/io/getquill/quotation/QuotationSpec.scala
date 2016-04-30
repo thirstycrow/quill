@@ -2,7 +2,6 @@ package io.getquill.quotation
 
 import io.getquill._
 import io.getquill.ast.{ Query => _, _ }
-import io.getquill.TestSource.mirrorSource
 
 class QuotationSpec extends Spec {
 
@@ -754,8 +753,9 @@ class QuotationSpec extends Spec {
 
   "bindings" - {
 
+    import language.reflectiveCalls
+
     "retains binginds" - {
-      import language.reflectiveCalls
       "identifier" in {
         val i = 1
         val q = quote(lift(i))
