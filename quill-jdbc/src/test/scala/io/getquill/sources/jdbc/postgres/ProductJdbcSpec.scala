@@ -13,14 +13,14 @@ class ProductJdbcSpec extends ProductSpec {
   "Product" - {
     "Insert multiple products" in {
       val inserted = testPostgresDB.run(productInsert)(productEntries)
-      val product = testPostgresDB.run(productById(lift(inserted(2)))).head
+      val product = testPostgresDB.run(productById(inserted(2))).head
       product.description mustEqual productEntries(2).description
       product.id mustEqual inserted(2)
     }
 
     "Single insert product" in {
       val inserted = testPostgresDB.run(productSingleInsert)
-      val product = testPostgresDB.run(productById(lift(inserted))).head
+      val product = testPostgresDB.run(productById(inserted)).head
       product.description mustEqual "Window"
       product.id mustEqual inserted
     }

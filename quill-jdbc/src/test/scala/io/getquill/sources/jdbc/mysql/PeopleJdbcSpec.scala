@@ -34,13 +34,13 @@ class PeopleJdbcSpec extends PeopleSpec {
     testMysqlDB.run(`Ex 5 compose`)(`Ex 5 param 1`, `Ex 5 param 2`) mustEqual `Ex 5 expected result`
   }
 
-  "Example 6 - predicate 0" in {
-    testMysqlDB.run(satisfies(eval(`Ex 6 predicate`))) mustEqual `Ex 6 expected result`
-  }
+  // "Example 6 - predicate 0" in {
+  //   testMysqlDB.run(satisfies(eval(`Ex 6 predicate`))) mustEqual `Ex 6 expected result`
+  // }
 
-  "Example 7 - predicate 1" in {
-    testMysqlDB.run(satisfies(eval(`Ex 7 predicate`))) mustEqual `Ex 7 expected result`
-  }
+  // "Example 7 - predicate 1" in {
+  //   testMysqlDB.run(satisfies(eval(`Ex 7 predicate`))) mustEqual `Ex 7 expected result`
+  // }
 
   "Example 8 - contains empty" in {
     testMysqlDB.run(`Ex 8 and 9 contains`)(`Ex 8 param`) mustEqual `Ex 8 expected result`
