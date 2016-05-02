@@ -60,6 +60,7 @@ trait ActionMacro extends EncodingMacro {
   private def expandedTreeBatch(quotedTree: Tree, action: Ast, idents: List[Ident], paramsTypes: List[Type], encodedParams: Tree) = {
     q"""
     {
+      val quoted = $quotedTree
       val (sql, bindings: List[io.getquill.ast.Ident], generated) =
         ${prepare(action, idents)}
 
