@@ -39,7 +39,7 @@ trait Quotation extends Liftables with Unliftables with Parsing {
     val nestedBindings =
       CollectAst(ast) {
         case QuotedReference(nested: Tree, nestedAst) =>
-          Bindings(c)(nested).map {
+          Bindings(c)(nested, nested.tpe).map {
             case (symbol, tree) =>
               val nestedName = bindingName(s"$nested.${symbol.name.decodedName}")
               q"val $nestedName = $tree"

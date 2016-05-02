@@ -31,7 +31,7 @@ trait SourceMacro extends Quotation with ActionMacro with QueryMacro with Resolv
         """.stripMargin)
     }
 
-    val inPlaceParams = bindingsTree(quoted.tree)
+    val inPlaceParams = bindingsTree(q"quoted", quoted.tree.tpe)
 
     t.tpe.typeSymbol.fullName.startsWith("scala.Function") match {
 
@@ -45,8 +45,8 @@ trait SourceMacro extends Quotation with ActionMacro with QueryMacro with Resolv
     }
   }
 
-  private def bindingsTree(tree: Tree) = {
-    Bindings(c)(tree)
+  private def bindingsTree(tree: Tree, tpe: Type) = {
+    Bindings(c)(tree, tpe)
       .map {
         case (symbol, tree) =>
           (Ident(symbol.name.decodedName.toString), (symbol.typeSignature.resultType, tree))

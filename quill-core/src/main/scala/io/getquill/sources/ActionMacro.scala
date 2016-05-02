@@ -44,6 +44,7 @@ trait ActionMacro extends EncodingMacro {
   private def expandedTreeSingle(quotedTree: Tree, action: Ast, idents: List[Ident], encodedParams: Tree) = {
     q"""
     {
+      val quoted = $quotedTree
       val (sql, bindings: List[io.getquill.ast.Ident], generated) =
         ${prepare(action, idents)}
 
