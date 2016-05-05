@@ -25,32 +25,7 @@ trait Quotation extends Liftables with Unliftables with Parsing {
     def bindingName(s: String) =
       TermName(NameTransformer.encode(s))
 
-    val ast =
-      Transform(astParser(body.tree)) {
-        case QuotedReference(nested: Tree, nestedAst) =>
-          val ast =
-            Transform(nestedAst) {
-              case RuntimeBinding(name) =>
-                RuntimeBinding(s"$nested.$name")
-            }
-          QuotedReference(nested, ast)
-      }
-
-    val nestedBindings =
-      CollectAst(ast) {
-        case QuotedReference(nested: Tree, nestedAst) =>
-          Bindings(c)(nested, nested.tpe).map {
-            case (symbol, tree) =>
-              val nestedName = bindingName(s"$nested.${symbol.name.decodedName}")
-              q"val $nestedName = $tree"
-          }
-      }.flatten
-
-    val bindings =
-      CollectAst(ast) {
-        case CompileTimeBinding(tree: Tree) =>
-          q"val ${bindingName(tree.toString)} = $tree"
-      }
+    val ast = astParser(body.tree)
 
     val id = TermName(s"id${ast.hashCode}")
 
@@ -65,11 +40,6 @@ trait Quotation extends Liftables with Unliftables with Parsing {
           override def toString = ast.toString
   
           def $id() = ()
-          
-          val bindings = new {
-            ..$bindings
-            ..$nestedBindings
-          }
         }
       }
     """

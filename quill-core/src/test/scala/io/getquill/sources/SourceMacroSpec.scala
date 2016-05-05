@@ -122,17 +122,19 @@ class SourceMacroSpec extends Spec {
         r.binds mustEqual Row(1)
       }
       "multiple free variables" in {
-        val i = 1
         val l = 1L
-        val q1 = quote {
-          qr1.filter(x => x.i == lift(i))
+        val q1 = {
+          val i = 1
+          quote {
+            qr1.filter(x => x.i == lift(i))
+          }
         }
         val q2 = quote {
           q1.filter(x => x.l == lift(l))
         }
         val r = mirrorSource.run(q2)
-        r.ast.toString mustEqual "query[TestEntity].filter(x => (x.i == lift(q1.i)) && (x.l == lift(l))).map(x => (x.s, x.i, x.l, x.o))"
-        r.binds mustEqual Row(i, l)
+        r.ast.toString mustEqual "query[TestEntity].filter(x => (x.i == lift(i)) && (x.l == lift(l))).map(x => (x.s, x.i, x.l, x.o))"
+        r.binds mustEqual Row(1, l)
       }
 
     }

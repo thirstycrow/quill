@@ -11,7 +11,7 @@ class CollectAst[T](p: PartialFunction[Ast, T], val state: List[T])
 }
 
 object CollectAst {
-  def apply[T](a: Ast)(p: PartialFunction[Ast, T]) =
+  def apply[T](a: Ast)(p: PartialFunction[Ast, T]): List[T] =
     (new CollectAst(p, List()).apply(a)) match {
       case (_, transformer) =>
         transformer.state

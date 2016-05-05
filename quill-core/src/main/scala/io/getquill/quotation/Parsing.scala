@@ -97,15 +97,15 @@ trait Parsing extends SchemaConfigParsing {
     case q"if($a) $b else $c" => If(astParser(a), astParser(b), astParser(c))
   }
 
-  val bindingParser: Parser[Binding] = Parser[Binding] {
-    case q"$pack.lift[$t]($value)" => CompileTimeBinding(value)
+  val bindingParser: Parser[Binding[_]] = Parser[Binding[_]] {
+    case q"$pack.lift[$t]($value)" => Binding(value.toString, value)
   }
 
   val quotedAstParser: Parser[Ast] = Parser[Ast] {
     case q"$pack.unquote[$t]($quoted)" => astParser(quoted)
     case t if (t.tpe <:< c.weakTypeOf[Quoted[Any]]) =>
       unquote[Ast](t) match {
-        case Some(ast) if (!IsDynamic(ast)) => QuotedReference(t, Rebind(c)(t, ast, astParser(_)))
+        case Some(ast) if (!IsDynamic(ast)) => Rebind(c)(t, ast, astParser(_))
         case other                          => Dynamic(t)
       }
   }

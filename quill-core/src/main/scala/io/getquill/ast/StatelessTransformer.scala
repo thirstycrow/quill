@@ -16,8 +16,7 @@ trait StatelessTransformer {
       case OptionOperation(t, a, b, c) => OptionOperation(t, apply(a), b, apply(c))
       case If(a, b, c)                 => If(apply(a), apply(b), apply(c))
       case e: Dynamic                  => e
-      case e: Binding                  => e
-      case e: QuotedReference[_]       => e
+      case e: Binding[_]               => e
       case Block(statements)           => Block(statements.map(apply))
       case Val(name, body)             => Val(name, apply(body))
       case o: Ordering                 => o

@@ -24,7 +24,7 @@ trait SqlIdiom {
       case a: If                => a.show
       case a @ (
         _: Function | _: FunctionApply | _: Dynamic | _: OptionOperation | _: Block |
-        _: Val | _: Ordering | _: Binding | _: QuotedReference[_]
+        _: Val | _: Ordering | _: Binding[_]
         ) =>
         fail(s"Malformed query $a.")
     }

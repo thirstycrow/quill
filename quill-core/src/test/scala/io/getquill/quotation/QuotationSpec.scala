@@ -751,46 +751,46 @@ class QuotationSpec extends Spec {
     }
   }
 
-  "bindings" - {
-
-    import language.reflectiveCalls
-
-    "retains binginds" - {
-      "identifier" in {
-        val i = 1
-        val q = quote(lift(i))
-        q.bindings.i mustEqual i
-      }
-      "property" in {
-        case class Test(a: String)
-        val t = Test("a")
-        val q = quote(lift(t.a))
-        q.bindings.`t.a` mustEqual t.a
-      }
-      "abritrary" in {
-        val q = quote(lift(String.valueOf(1)))
-        q.bindings.`java.this.lang.String.valueOf(1)` mustEqual String.valueOf(1)
-      }
-    }
-
-    "aggregates bindings of nested quotations" - {
-      "one level" in {
-        val i = 1
-        val q1 = quote(lift(i))
-        val q2 = quote(q1 + 1)
-        q2.bindings.`q1.i` mustEqual i
-      }
-      "multiple levels" in {
-        val (a, b, c) = (1, 2, 3)
-        val q1 = quote(lift(a))
-        val q2 = quote(q1 + lift(b))
-        val q3 = quote(q1 + q2 + lift(c))
-        q3.bindings.`q1.a` mustEqual a
-        q3.bindings.`q2.b` mustEqual b
-        q3.bindings.c mustEqual c
-      }
-    }
-  }
+  //  "bindings" - {
+  //
+  //    import language.reflectiveCalls
+  //
+  //    "retains binginds" - {
+  //      "identifier" in {
+  //        val i = 1
+  //        val q = quote(lift(i))
+  //        q.bindings.i mustEqual i
+  //      }
+  //      "property" in {
+  //        case class Test(a: String)
+  //        val t = Test("a")
+  //        val q = quote(lift(t.a))
+  //        q.bindings.`t.a` mustEqual t.a
+  //      }
+  //      "abritrary" in {
+  //        val q = quote(lift(String.valueOf(1)))
+  //        q.bindings.`java.this.lang.String.valueOf(1)` mustEqual String.valueOf(1)
+  //      }
+  //    }
+  //
+  //    "aggregates bindings of nested quotations" - {
+  //      "one level" in {
+  //        val i = 1
+  //        val q1 = quote(lift(i))
+  //        val q2 = quote(q1 + 1)
+  //        q2.bindings.`q1.i` mustEqual i
+  //      }
+  //      "multiple levels" in {
+  //        val (a, b, c) = (1, 2, 3)
+  //        val q1 = quote(lift(a))
+  //        val q2 = quote(q1 + lift(b))
+  //        val q3 = quote(q1 + q2 + lift(c))
+  //        q3.bindings.`q1.a` mustEqual a
+  //        q3.bindings.`q2.b` mustEqual b
+  //        q3.bindings.c mustEqual c
+  //      }
+  //    }
+  //  }
 
   "reduces tuple matching locally" - {
     "simple" in {

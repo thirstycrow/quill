@@ -38,7 +38,6 @@ trait QueryMacro extends SelectFlattening with SelectResultExtraction {
     if (inputs.isEmpty)
       q"""
       {
-        val quoted = $quotedTree
         val (sql, bindings: List[io.getquill.ast.Ident], _) =
             ${prepare(flattenQuery, allParamIdents)}
 
@@ -51,7 +50,6 @@ trait QueryMacro extends SelectFlattening with SelectResultExtraction {
     else
       q"""
       {
-        val quoted = $quotedTree
         val (sql, bindings: List[io.getquill.ast.Ident], _) =
             ${prepare(flattenQuery, allParamIdents)}
 

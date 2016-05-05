@@ -535,27 +535,13 @@ class AstShowSpec extends Spec {
     }
   }
 
-  "shows bindings" - {
-    "quotedReference" in {
-      val ast: Ast = QuotedReference("ignore", Filter(Ident("a"), Ident("b"), Ident("c")))
-      ast.show mustEqual
-        """a.filter(b => c)"""
+  "shows bindings" in {
+    val i = 1
+    val q = quote {
+      qr1.filter(x => x.i == lift(i))
     }
-
-    "compileTimeBinding" in {
-      val ast: Ast = Filter(Ident("a"), Ident("b"), CompileTimeBinding("c"))
-      ast.show mustEqual
-        """a.filter(b => lift(c))"""
-    }
-
-    "runtimeBindings" in {
-      val i = 1
-      val q = quote {
-        qr1.filter(x => x.i == i)
-      }
-      (q.ast: Ast).show mustEqual
-        """query[TestEntity].filter(x => x.i == i)"""
-    }
+    (q.ast: Ast).show mustEqual
+      """query[TestEntity].filter(x => x.i == lift(i))"""
   }
 
   "shows dynamic asts" - {

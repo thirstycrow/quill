@@ -7,7 +7,6 @@ import io.getquill.quotation.Quotation
 import io.getquill.quotation.Quoted
 import io.getquill.quotation.FreeVariables
 import io.getquill.util.Messages._
-import io.getquill.quotation.Bindings
 
 trait SourceMacro extends Quotation with ActionMacro with QueryMacro with ResolveSourceMacro {
   val c: Context
@@ -31,7 +30,7 @@ trait SourceMacro extends Quotation with ActionMacro with QueryMacro with Resolv
         """.stripMargin)
     }
 
-    val inPlaceParams = bindingsTree(q"quoted", quoted.tree.tpe)
+    val inPlaceParams = bindingsTree(ast)
 
     t.tpe.typeSymbol.fullName.startsWith("scala.Function") match {
 
@@ -45,13 +44,11 @@ trait SourceMacro extends Quotation with ActionMacro with QueryMacro with Resolv
     }
   }
 
-  private def bindingsTree(tree: Tree, tpe: Type) = {
-    Bindings(c)(tree, tpe)
-      .map {
-        case (symbol, tree) =>
-          (Ident(symbol.name.decodedName.toString), (symbol.typeSignature.resultType, tree))
-      }.toMap
-  }
+  private def bindingsTree(ast: Ast) =
+    CollectAst(ast) {
+      case Binding(name, tree: Tree) =>
+        (Ident(name), (tree.tpe, tree))
+    }.toMap
 
   private def run[R, S, T](quotedTree: Tree, ast: Ast, inPlaceParams: collection.Map[Ident, (Type, Tree)], params: List[(Ident, Type)])(implicit r: WeakTypeTag[R], s: WeakTypeTag[S], t: WeakTypeTag[T]): Tree =
     ast match {
