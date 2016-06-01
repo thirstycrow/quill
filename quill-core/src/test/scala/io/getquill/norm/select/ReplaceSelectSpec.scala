@@ -1,9 +1,11 @@
 package io.getquill.norm.select
 
-import io.getquill._
+import io.getquill.Spec
 import io.getquill.ast._
 
 class ReplaceSelectSpec extends Spec {
+
+  import source._
 
   "replaces the final map (select) body" - {
     "simple query" in {

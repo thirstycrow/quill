@@ -1,12 +1,13 @@
 package io.getquill.ast
 
-import io.getquill._
+import io.getquill.Spec
 import io.getquill.{ Query => QueryInterface }
 import io.getquill.ast.AstShow.astShow
 import io.getquill.util.Show.Shower
 
 class AstShowSpec extends Spec {
 
+  import source._
   import io.getquill.util.Show._
   import io.getquill.ast.AstShow._
 

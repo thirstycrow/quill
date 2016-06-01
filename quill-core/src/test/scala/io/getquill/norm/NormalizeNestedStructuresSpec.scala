@@ -1,8 +1,10 @@
 package io.getquill.norm
 
-import io.getquill._
+import io.getquill.Spec
 
 class NormalizeNestedStructuresSpec extends Spec {
+
+  import source._
 
   "returns Some if a nested structure changes" - {
     "flatMap" in {

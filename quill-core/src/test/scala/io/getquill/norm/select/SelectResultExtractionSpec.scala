@@ -1,11 +1,14 @@
 package io.getquill.norm.select
 
-import io.getquill._
+import io.getquill.Spec
 import io.getquill.sources.mirror.Row
 import io.getquill.TestSource.mirrorSource
 
 case class Test(s: String, i: Int)
+
 class SelectResultExtractionSpec extends Spec {
+
+  import source._
 
   "extracts the final value from a select result" - {
     "simple value" in {

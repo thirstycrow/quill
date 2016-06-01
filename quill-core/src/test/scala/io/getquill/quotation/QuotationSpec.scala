@@ -1,10 +1,12 @@
 package io.getquill.quotation
 
-import io.getquill._
+import io.getquill.Spec
 import io.getquill.ast.{ Query => _, _ }
 import scala.reflect.ClassTag
 
 class QuotationSpec extends Spec {
+
+  import source._
 
   "quotes and unquotes asts" - {
 

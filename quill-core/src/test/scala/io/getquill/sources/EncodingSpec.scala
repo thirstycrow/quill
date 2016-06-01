@@ -5,10 +5,10 @@ import java.util.Date
 import scala.BigDecimal
 
 import io.getquill.Spec
-import io.getquill.query
-import io.getquill.quote
 
 class EncodingSpec extends Spec {
+
+  import source._
 
   case class EncodingTestEntity(
     v1:  String,

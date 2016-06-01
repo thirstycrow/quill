@@ -1,8 +1,10 @@
 package io.getquill.norm
 
-import io.getquill._
+import io.getquill.Spec
 
 class SymbolicReductionSpec extends Spec {
+
+  import source._
 
   "a.filter(b => c).flatMap(d => e.$)" - {
     "e is an entity" in {

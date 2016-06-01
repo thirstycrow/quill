@@ -1,8 +1,10 @@
 package io.getquill.norm
 
-import io.getquill._
+import io.getquill.Spec
 
 class NormalizeSpec extends Spec {
+
+  import source._
 
   "normalizes random-generated queries" - {
     val gen = new QueryGenerator(1)

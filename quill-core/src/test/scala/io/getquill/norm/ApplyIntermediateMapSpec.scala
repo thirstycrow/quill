@@ -1,8 +1,10 @@
 package io.getquill.norm
 
-import io.getquill._
+import io.getquill.Spec
 
 class ApplyIntermediateMapSpec extends Spec {
+
+  import source._
 
   "avoids applying the intermmediate map after a groupBy" - {
     "flatMap" in {

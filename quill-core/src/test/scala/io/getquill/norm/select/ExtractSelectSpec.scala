@@ -1,9 +1,11 @@
 package io.getquill.norm.select
 
-import io.getquill._
+import io.getquill.Spec
 import io.getquill.ast._
 
 class ExtractSelectSpec extends Spec {
+
+  import source._
 
   "extracts the final map (select) from a query" - {
     "simple query" in {

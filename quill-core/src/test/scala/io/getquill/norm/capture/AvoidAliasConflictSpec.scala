@@ -1,8 +1,10 @@
 package io.getquill.norm.capture
 
-import io.getquill._
+import io.getquill.Spec
 
 class AvoidAliasConflictSpec extends Spec {
+
+  import source._
 
   "renames alias to avoid conflict between entities during normalization" - {
     "flatMap" in {

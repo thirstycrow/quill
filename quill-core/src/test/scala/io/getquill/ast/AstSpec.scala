@@ -1,10 +1,10 @@
 package io.getquill.ast
 
-import io.getquill._
-import io.getquill.query
-import io.getquill.quote
+import io.getquill.Spec
 
 class AstSpec extends Spec {
+
+  import source._
 
   "overrides toString to ease debugging" in {
     val q =

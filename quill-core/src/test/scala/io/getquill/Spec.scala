@@ -4,7 +4,11 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.FreeSpec
 import org.scalatest.MustMatchers
 
-trait Spec extends FreeSpec with MustMatchers with BeforeAndAfterAll {
+abstract class Spec extends FreeSpec with MustMatchers with BeforeAndAfterAll {
+
+  val source = io.getquill.source(new MirrorSourceConfig("test"))
+
+  import source._
 
   case class TestEntity(s: String, i: Int, l: Long, o: Option[Int])
   case class TestEntity2(s: String, i: Int, l: Long, o: Option[Int])

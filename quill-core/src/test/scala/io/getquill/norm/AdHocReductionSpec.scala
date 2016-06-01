@@ -1,8 +1,10 @@
 package io.getquill.norm
 
-import io.getquill._
+import io.getquill.Spec
 
 class AdHocReductionSpec extends Spec {
+
+  import source._
 
   "filter.filter" - {
     "a.filter(b => c).filter(d => e)" in {

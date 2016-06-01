@@ -1,9 +1,11 @@
 package io.getquill.norm
 
-import io.getquill._
+import io.getquill.Spec
 import io.getquill.ast.Ast
 
 class FlattenOptionOperationSpec extends Spec {
+
+  import source._
 
   "transforms option operations into simple properties" - {
     "map" in {
