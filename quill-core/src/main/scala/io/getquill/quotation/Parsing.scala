@@ -374,6 +374,7 @@ trait Parsing extends EntityConfigParsing {
     case q"null" => NullValue
     case Literal(c.universe.Constant(v)) => Constant(v)
     case q"((..$v))" if (v.size > 1) => Tuple(v.map(astParser(_)))
+    case q"$pack.tupleN(..$v)" => Tuple(v.map(astParser(_)))
     case tree @ q"$pack.$coll.apply[..$t](..$v)" if isTraversable(tree) => Collection(v.map(astParser(_)))
     case q"((scala.this.Predef.ArrowAssoc[$t1]($v1).$arrow[$t2]($v2)))" => Tuple(List(astParser(v1), astParser(v2)))
   }

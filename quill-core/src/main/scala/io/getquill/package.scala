@@ -25,6 +25,8 @@ package object getquill {
   def quote[T1, T2, T3, T4, T5, T6, T7, T8, R](func: (T1, T2, T3, T4, T5, T6, T7, T8) => Quoted[R]): Quoted[(T1, T2, T3, T4, T5, T6, T7, T8) => R] = macro Macro.quotedFunctionBody
   def quote[T1, T2, T3, T4, T5, T6, T7, T8, T9, R](func: (T1, T2, T3, T4, T5, T6, T7, T8, T9) => Quoted[R]): Quoted[(T1, T2, T3, T4, T5, T6, T7, T8, T9) => R] = macro Macro.quotedFunctionBody
   def quote[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, R](func: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) => Quoted[R]): Quoted[(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10) => R] = macro Macro.quotedFunctionBody
+  
+  private[getquill] def tupleN(v: Any*): Unit = NonQuotedException()
 
   implicit def quote[T](body: T): Quoted[T] = macro Macro.quote[T]
   implicit def unquote[T](quoted: Quoted[T]): T = NonQuotedException()
